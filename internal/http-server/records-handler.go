@@ -113,7 +113,7 @@ func getRecordsCount(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 
-	return c.String(http.StatusOK, fmt.Sprintf(`{"message": %d}`, count))
+	return c.String(http.StatusOK, fmt.Sprintf(`{"message": "ok", "count": %d}`, count))
 }
 
 func getAllRecords(c echo.Context) error {

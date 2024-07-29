@@ -31,3 +31,7 @@ type AddStudent struct {
 	Class string `json:"class" form:"class" query:"class"`
 	Snils string `json:"snils" form:"snils" query:"snils"`
 }
+
+type GetJSON struct {
+	Path string `json:"path" form:"path" query:"path"`
+}

@@ -5,6 +5,7 @@ import (
 	"AnlossAPI/internal/config"
 	http_server "AnlossAPI/internal/http-server"
 	"AnlossAPI/internal/storage/sqlite"
+	"AnlossAPI/pkg/scheduler"
 	"log/slog"
 	"os"
 )
@@ -26,9 +27,10 @@ func main() {
 
 	bot.New(logger)
 
-	//TODO: run server
+	go http_server.New(logger, cfg)
+	go autoSendDataBases(cfg, logger)
 
-	http_server.New(logger, cfg)
+	select {}
 }
 
 func setupLogger(env string) *slog.Logger {
@@ -50,4 +52,20 @@ func setupLogger(env string) *slog.Logger {
 	}
 
 	return logger
+}
+
+func autoSendDataBases(cfg *config.Config, logger *slog.Logger) {
+	for i := 0; i < 7; i++ {
+		scheduler.NewScheduler(i, 15, 0, func() {
+			err := bot.SendFile(cfg.RecordsPath, "records.db", "time")
+			if err != nil {
+				logger.Info("error sending file", "file", cfg.RecordsPath, "error", err)
+			}
+
+			err = bot.SendFile(cfg.StudentsPath, "students.db", "time")
+			if err != nil {
+				logger.Info("error sending file", "file", cfg.StudentsPath, "error", err)
+			}
+		})
+	}
 }
