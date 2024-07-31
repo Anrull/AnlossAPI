@@ -35,7 +35,7 @@ func addRecords(c echo.Context) error {
 
 	fmt.Println(record)
 
-	if record.Date == "nil" {
+	if record.Date == "nil" || record.Date == "null" {
 		err = sqlite.AddRecord(
 			record.Name, record.Class, record.Olimp, record.Sub, record.Teacher, record.Stage)
 	} else {
@@ -47,7 +47,7 @@ func addRecords(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 
-	return c.String(http.StatusOK, `{"message": "ok"}`)
+	return c.JSON(http.StatusOK, map[string]string{"message": "ok"})
 }
 
 func getRecords(c echo.Context) error {
@@ -84,7 +84,7 @@ func getRecords(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 
-	return c.String(http.StatusOK, string(jsonData))
+	return c.JSON(http.StatusOK, string(jsonData))
 }
 
 func getRecordsCount(c echo.Context) error {
@@ -113,7 +113,7 @@ func getRecordsCount(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 
-	return c.String(http.StatusOK, fmt.Sprintf(`{"message": "ok", "count": %d}`, count))
+	return c.JSON(http.StatusOK, fmt.Sprintf(`{"message": "ok", "count": %d}`, count))
 }
 
 func getAllRecords(c echo.Context) error {
@@ -129,7 +129,7 @@ func getAllRecords(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 
-	return c.String(http.StatusOK, string(jsonData))
+	return c.JSON(http.StatusOK, string(jsonData))
 }
 
 func deleteAllRecords(c echo.Context) error {
@@ -157,5 +157,5 @@ func deleteAllRecords(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 
-	return c.String(http.StatusOK, `{"message": "ok"}`)
+	return c.JSON(http.StatusOK, `{"message": "ok"}`)
 }

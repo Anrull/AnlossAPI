@@ -21,7 +21,7 @@ func checkSnils(c echo.Context) error {
 		return c.String(http.StatusOK, fmt.Sprintf(`{"name": "%s", "stage": "%s"}`, name, stage))
 	}
 
-	return c.String(http.StatusNoContent, fmt.Sprintf(`{"message": "no student with this (%s) hashing snils"}`, student.Snils))
+	return c.JSON(http.StatusNoContent, fmt.Sprintf(`{"message": "no student with this (%s) hashing snils"}`, student.Snils))
 }
 
 func addStudent(c echo.Context) error {
@@ -47,5 +47,5 @@ func addStudent(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 
-	return c.String(http.StatusCreated, `{"message": "student added"}`)
+	return c.JSON(http.StatusCreated, `{"message": "student added"}`)
 }
