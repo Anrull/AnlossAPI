@@ -14,7 +14,7 @@ type Records struct {
 	gorm.Model
 	Date     string `json:"date"`
 	Name     string `json:"name"`
-	Class    string `json:"class"`
+	Class    string `json:"classes"`
 	Olimps   string `json:"olimps"`
 	Stage    string `json:"stage"`
 	Subjects string `json:"subjects"`

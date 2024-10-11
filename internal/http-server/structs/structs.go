@@ -35,3 +35,13 @@ type AddStudent struct {
 type GetJSON struct {
 	Path string `json:"path" form:"path" query:"path"`
 }
+
+type GetTimetable struct {
+	Class string `json:"class" form:"class" query:"class"`
+	Day   string `json:"day" form:"day" query:"day"`
+}
+
+type GetTimetableTeacher struct {
+	Name string `json:"name" form:"name" query:"name"`
+	Day  string `json:"day" form:"day" query:"day"`
+}

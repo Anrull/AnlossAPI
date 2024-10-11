@@ -1,7 +1,7 @@
-env: "local"
+env: "prod"
 records_path: "./storage/records.db"
 students_path: "./storage/student.db"
 http_server:
-  address: "192.168.31.33:2008"
+  address: "45.155.204.11:80"
   timeout: 4s
   idle_timeout: 5m

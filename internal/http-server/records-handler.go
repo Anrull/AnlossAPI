@@ -5,8 +5,6 @@ import (
 	"AnlossAPI/internal/http-server/structs"
 	"AnlossAPI/internal/storage/sqlite"
 	"AnlossAPI/pkg/env"
-	"encoding/json"
-	"fmt"
 	"github.com/labstack/echo/v4"
 	"net/http"
 )
@@ -33,9 +31,7 @@ func addRecords(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, "none teacher")
 	}
 
-	fmt.Println(record)
-
-	if record.Date == "nil" || record.Date == "null" {
+	if record.Date == "nil" || record.Date == "null" || record.Date == "" {
 		err = sqlite.AddRecord(
 			record.Name, record.Class, record.Olimp, record.Sub, record.Teacher, record.Stage)
 	} else {
@@ -78,13 +74,7 @@ func getRecords(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 
-	jsonData, err := json.Marshal(records)
-	if err != nil {
-		Logger.Info("internal.http-server.getRecords" + err.Error())
-		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
-	}
-
-	return c.JSON(http.StatusOK, string(jsonData))
+	return c.JSON(http.StatusOK, map[string]interface{}{"records": records})
 }
 
 func getRecordsCount(c echo.Context) error {
@@ -113,7 +103,7 @@ func getRecordsCount(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 
-	return c.JSON(http.StatusOK, fmt.Sprintf(`{"message": "ok", "count": %d}`, count))
+	return c.JSON(http.StatusOK, map[string]interface{}{"message": "ok", "count": count})
 }
 
 func getAllRecords(c echo.Context) error {
@@ -123,13 +113,7 @@ func getAllRecords(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 
-	jsonData, err := json.Marshal(records)
-	if err != nil {
-		Logger.Info("internal.http-server.getRecords" + err.Error())
-		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
-	}
-
-	return c.JSON(http.StatusOK, string(jsonData))
+	return c.JSON(http.StatusOK, map[string]interface{}{"records": records})
 }
 
 func deleteAllRecords(c echo.Context) error {
@@ -157,5 +141,5 @@ func deleteAllRecords(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 
-	return c.JSON(http.StatusOK, `{"message": "ok"}`)
+	return c.JSON(http.StatusOK, map[string]string{"message": "ok"})
 }

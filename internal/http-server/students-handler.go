@@ -18,10 +18,12 @@ func checkSnils(c echo.Context) error {
 	flag, name, stage := sqlite.CheckSnils(student.Snils, false)
 
 	if flag {
-		return c.String(http.StatusOK, fmt.Sprintf(`{"name": "%s", "stage": "%s"}`, name, stage))
+		return c.JSON(http.StatusOK,
+			map[string]string{"name": name, "stage": stage})
 	}
 
-	return c.JSON(http.StatusNoContent, fmt.Sprintf(`{"message": "no student with this (%s) hashing snils"}`, student.Snils))
+	return c.JSON(http.StatusNoContent,
+		map[string]string{"message": fmt.Sprintf("no student with this (%s) hashing snils", student.Snils)})
 }
 
 func addStudent(c echo.Context) error {
@@ -47,5 +49,5 @@ func addStudent(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 
-	return c.JSON(http.StatusCreated, `{"message": "student added"}`)
+	return c.JSON(http.StatusCreated, map[string]string{"message": "student added"})
 }

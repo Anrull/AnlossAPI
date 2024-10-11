@@ -2,7 +2,6 @@ package http_server
 
 import (
 	"AnlossAPI/internal/config"
-	"fmt"
 	"github.com/labstack/echo/v4"
 	"log/slog"
 )
@@ -21,10 +20,17 @@ func New(logger *slog.Logger, cfg *config.Config) {
 	e.GET("/getRecordsCount", getRecordsCount)
 	e.GET("/getAllRecords", getAllRecords)
 	e.GET("/deleteAllRecords", deleteAllRecords)
+
 	e.GET("/checkSnils", checkSnils)
 	e.GET("/addStudent", addStudent)
+
 	e.GET("/getJson", getJson)
-	fmt.Println(cfg.Port)
+
+	e.GET("/getTrackerData", getTrackerData)
+	e.GET("/getStages", getStages)
+	e.GET("/getTimetableTeacher", getTimetableTeacher)
+	e.GET("/getTimetable", getTimetable)
+	e.GET("/getTeachers", getTeachers)
 
 	e.Logger.Fatal(e.Start(cfg.Port))
 }
